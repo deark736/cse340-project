@@ -1,6 +1,196 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
+/* Mobile-first defaults */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('/images/site/checkerboard.jpg') center / cover;
+  color: #333;
+}
+#wrapper {
+  max-width: 960px;
+  margin: auto;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+header, nav, main, footer {
+  padding: 1em;
+}
+/* ──────────────────────────────────────────────
+   Header / logo
+────────────────────────────────────────────── */
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#top-header .logo {
+  display: flex;
+  align-items: center;
+}
+#top-header .logo img {
+  height: 40px;
+  width: auto;
+  margin-right: 0.5rem;
+}
+#top-header .logo a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+#top-header .account a {
+  text-decoration: none;
+  color: #555;
+}
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+  background: #2c3e50;
+}
+
+nav ul li {
+  width: 100%;
+}
+
+nav ul li a {
+  display: block;
+  padding: 0.75em 1em;
+  color: #ecf0f1;
+  text-decoration: none;
+}
+nav ul li a:hover {
+  background: #34495e;
+}
+main h1 {
+  font-size: 1.75em;
+  margin: 0.5em 0;
+}
+
+/* ========================================================
+   Hero section: overlay text+button on top of the image
+   ======================================================== */
+.hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+.hero__img {
+  width: 100%;
+  display: block;
+}
+.hero__overlay {
+  position: static;
+  margin: 1rem;
+  background: rgba(255,255,255,0.9);
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.hero__title {
+  margin: 0;
+  color: #1e7a43;
+  font-size: 1.5rem;
+}
+.hero__copy {
+  margin: 0.5rem 0 1rem;
+  color: #333;
+  line-height: 1.4;
+}
+.hero__cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #115e2c; /* updated for better contrast */
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.reviews ul {
+  list-style: disc outside;
+  padding-left: 1.5em;
+}
+/* ────────────────────────────────
+   Upgrades: two cards per row using Grid
+──────────────────────────────── */
+.upgrades .items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* exactly 2 columns */
+  gap: 1em;                              /* space between cards */
+  justify-items: center;
+  max-width: 600px;                      /* optional: limit row width */
+  margin: 0 auto;
+}
+
+.upgrades .item {
+  width: 100%;              /* fill the grid column */
+  height: 220px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
+}
+
+.upgrades .item img {
+  max-width: 120px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.upgrades .item p {
+  margin-top: 0.5em;
+}
+footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #555555;
+}
+
+/* Wider screens */
+@media (min-width: 768px) {
+  .hero {
+    position: relative;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    max-width: 40%;
+    background: rgba(255,255,255,0.8);
+  }
+  
+  nav ul {
+    display: flex;
+  }
+
+  nav ul li {
+    flex: 1;
+  }
+
+  nav ul li a {
+    text-align: center;
+    font-size: 1rem;
+  }
+}
+/* ========================================================
+   Reviews & Upgrades side-by-side (≥768px)
+   ======================================================== */
+@media (min-width: 768px) {
+  .features {
+    display: flex;
+    gap: 2rem;
+  }
+  .features > section {
+    flex: 1;
+  }
 }
