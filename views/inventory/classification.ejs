@@ -1,0 +1,12 @@
+<% // Heading Section - shows title if present, else redirect to home %>
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<% // Message Section (future use) %>
+<%# messages() %>
+
+<% // Inventory Grid Section - renders HTML content passed as 'grid' %>
+<%- grid %>
