@@ -264,3 +264,50 @@ footer {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ────────────────────────────────
+   Vehicle Detail View
+──────────────────────────────── */
+#vehicle-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+#vehicle-detail img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.detail-content h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.detail-content p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.detail-content p strong {
+  color: #000;
+}
+
+/* Two-column layout for large screens */
+@media (min-width: 768px) {
+  #vehicle-detail {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  #vehicle-detail img {
+    max-width: 50%;
+  }
+
+  .detail-content {
+    flex: 1;
+    padding-left: 2rem;
+  }
+}
