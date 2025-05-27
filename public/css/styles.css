@@ -342,6 +342,23 @@ form input[type="password"] {
   font-size: 1rem;
 }
 
+form input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+form p.helper-text {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+}
+
 form button[type="submit"] {
   width: 100%;
   padding: 0.75rem;
