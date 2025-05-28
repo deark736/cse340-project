@@ -2,6 +2,14 @@
 
 <%- messages() %>
 
+<% if (errors) { %>
+  <ul class="error">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
 <form method="post" action="/account/register">
   <label for="account_firstname">First Name</label>
   <input type="text" id="account_firstname" name="account_firstname" required>
