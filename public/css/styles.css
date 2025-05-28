@@ -331,8 +331,13 @@ form label {
   color: #333;
 }
 
+/* common styles for text, email, password, number, selects & textareas */
+form input[type="text"],
 form input[type="email"],
-form input[type="password"] {
+form input[type="password"],
+form input[type="number"],
+form select,
+form textarea {
   width: 100%;
   padding: 0.75rem;
   margin-bottom: 1.5rem;
@@ -342,14 +347,14 @@ form input[type="password"] {
   font-size: 1rem;
 }
 
-form input[type="text"] {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 1rem;
+/* allow vertical resizing only on textareas */
+form textarea {
+  resize: vertical;
+}
+
+/* ensure white background on select dropdowns */
+form select {
+  background-color: #fff;
 }
 
 form p.helper-text, form .helper-text {
