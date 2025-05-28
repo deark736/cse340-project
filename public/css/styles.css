@@ -352,7 +352,7 @@ form input[type="text"] {
   font-size: 1rem;
 }
 
-form p.helper-text {
+form p.helper-text, form .helper-text {
   font-size: 0.85rem;
   color: #555;
   margin-top: -1rem;
