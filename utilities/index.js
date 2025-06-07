@@ -92,4 +92,17 @@ Util.checkJWTToken = (req, res, next) => {
   }
 }
 
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkLogin = (req, res, next) => {
+  // if our JWT‐checker has set loggedin, go ahead…
+  if (res.locals.loggedin) {
+    return next()
+  }
+  // otherwise, tell them to log in
+  req.flash("notice", "Please log in.")
+  return res.redirect("/account/login")
+}
+
 module.exports = Util

@@ -27,7 +27,7 @@ router.post(
 
 router.get(
   "/",
-  utilities.checkJWTToken,
+  utilities.checkLogin,                                  // ← our new gatekeeper
   utilities.handleErrors(accountController.buildAccount)
 )
 
