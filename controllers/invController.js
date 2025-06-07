@@ -163,5 +163,46 @@ invCont.getInventoryJSON = async (req, res, next) => {
   return next(new Error("No data returned"))
 }
 
+/* ***************************
+ *  Build edit inventory view
+ * ************************** */
+invCont.editInventoryView = async function (req, res, next) {
+  // 1) grab and parse the inv_id from the URL
+  const inv_id = parseInt(req.params.inv_id, 10)
+
+  // 2) build nav
+  let nav = await utilities.getNav()
+
+  // 3) fetch the single item’s data
+  const itemData = await invModel.getInventoryById(inv_id)
+
+  // 4) build the classification <select>, pre-selecting this item’s class
+  const classificationSelect = await utilities.buildClassificationList(
+    itemData.classification_id
+  )
+
+  // 5) formulate a friendly title
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+
+  // 6) render the “edit” view, passing in every field
+  res.render("inventory/edit-inventory", {
+    title: `Edit ${itemName}`,
+    nav,
+    errors: null,
+    inv_id: itemData.inv_id,
+    classificationSelect,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_description: itemData.inv_description,
+    inv_image: itemData.inv_image,
+    inv_thumbnail: itemData.inv_thumbnail,
+    inv_price: itemData.inv_price,
+    inv_miles: itemData.inv_miles,
+    inv_color: itemData.inv_color,
+    classification_id: itemData.classification_id,
+  })
+}
+
 module.exports = invCont
 // now includes getInventoryJSON via invCont object
