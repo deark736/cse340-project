@@ -6,13 +6,14 @@
  * Require Statements
  *************************/
 const express = require("express")
+const cookieParser = require("cookie-parser")
 const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const utilities = require("./utilities/")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
-const utilities = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
 const accountRoute = require("./routes/accountRoute")
@@ -41,6 +42,12 @@ app.use(function(req, res, next){
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+// parse cookies for JWT
+app.use(cookieParser())
+
+// check any incoming JWT cookie on *every* request
+app.use(utilities.checkJWTToken)
 
 /* ***********************
  * View Engine and Templates
