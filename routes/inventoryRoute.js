@@ -18,15 +18,24 @@ router.get("/error", (req, res, next) => {
 /* ─────────────────────────────────────────
    Management View
 ───────────────────────────────────────── */
-router.get("/", utilities.handleErrors(invController.buildManagement))
+router.get(
+  "/",
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.buildManagement)
+)
 
 /* ─────────────────────────────────────────
    Add Classification
 ───────────────────────────────────────── */
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification))
+router.get(
+  "/add-classification",
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.buildAddClassification)
+)
 
 router.post(
   "/add-classification",
+  utilities.checkAdmin,
   invValidate.classificationRules(),
   invValidate.checkClassification,
   utilities.handleErrors(invController.addClassification)
@@ -35,10 +44,15 @@ router.post(
 /* ─────────────────────────────────────────
    Add Inventory Item
 ───────────────────────────────────────── */
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory))
+router.get(
+  "/add-inventory",
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.buildAddInventory)
+)
 
 router.post(
   "/add-inventory",
+  utilities.checkAdmin,
   invValidate.inventoryRules(),
   invValidate.checkInventory,
   utilities.handleErrors(invController.addInventory)
@@ -55,6 +69,7 @@ router.get(
 ───────────────────────────────────────── */
 router.get(
   "/edit/:inv_id",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.editInventoryView)
 )
 
@@ -63,8 +78,9 @@ router.get(
 ───────────────────────────────────────── */
 router.post(
   "/update",
-  invValidate.inventoryRules(),        // same validation as “add”
-  invValidate.checkUpdateData,         // new error handler
+  utilities.checkAdmin,
+  invValidate.inventoryRules(),
+  invValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
 )
 
@@ -73,6 +89,7 @@ router.post(
 ───────────────────────────────────────── */
 router.get(
   "/delete/:inv_id",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.buildDeleteView)
 )
 
@@ -81,6 +98,7 @@ router.get(
 ───────────────────────────────────────── */
 router.post(
   "/delete",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.deleteInventory)
 )
 

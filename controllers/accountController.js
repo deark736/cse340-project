@@ -129,16 +129,89 @@ async function buildAccount(req, res) {
   let nav = await utilities.getNav()
   res.render("account/account", {
     title: "Account",
-    nav,
-    errors: null
+    nav
   })
 }
 
-// Export both functions
+/* ****************************************
+ *  Deliver account-edit view (fresh from DB)
+ **************************************** */
+async function buildEditAccount(req, res) {
+  const account_id = res.locals.accountData.account_id
+  let nav = await utilities.getNav()
+
+  // Pull the latest data
+  const acct = await accountModel.getAccountById(account_id)
+  if (!acct) {
+    // handle missing user…
+    req.flash("error","Couldn’t load your account.")
+    return res.redirect("/account/")
+  }
+
+  // Render using the DB values
+  res.render("account/edit-account", {
+    title: "Update Account",
+    nav,
+    errors: null,
+    account_id:         acct.account_id,
+    account_firstname:  acct.account_firstname,
+    account_lastname:   acct.account_lastname,
+    account_email:      acct.account_email,
+  })
+}
+
+/* ****************************************
+ *  Process account-info update
+ **************************************** */
+async function updateAccount(req, res) {
+  let nav = await utilities.getNav()
+  const { account_id, account_firstname, account_lastname, account_email } = req.body
+  const result = await accountModel.updateAccountInfo(
+    account_id, account_firstname, account_lastname, account_email
+  )
+  if (result) {
+    // refresh token/payload so header and greeting update
+    res.locals.accountData = { ...res.locals.accountData, account_firstname, account_lastname, account_email }
+    req.flash("notice", "Account updated")
+    return res.redirect("/account/")
+  }
+  req.flash("error", "Update failed")
+  return res.redirect(`/account/edit/${account_id}`)
+}
+
+/* ****************************************
+ *  Process password change
+ **************************************** */
+async function updatePassword(req, res) {
+  let nav = await utilities.getNav()
+  const { account_id, account_password } = req.body
+  const hash = await bcrypt.hash(account_password, 10)
+  const result = await accountModel.updatePassword(account_id, hash)
+  if (result) {
+    req.flash("notice", "Password changed")
+    return res.redirect("/account/")
+  }
+  req.flash("error", "Password update failed")
+  return res.redirect(`/account/edit/${account_id}`)
+}
+
+/* ****************************************
+ *  Logout
+ **************************************** */
+function logout(req, res) {
+  res.clearCookie("jwt")
+  req.flash("notice", "You have been logged out")
+  return res.redirect("/")
+}
+
 module.exports = {
   buildLogin,
   buildRegister,
   registerAccount,
   accountLogin,
-  buildAccount
+  buildAccount,
+  buildEditAccount,
+  updateAccount,
+  updatePassword,
+  logout
 }

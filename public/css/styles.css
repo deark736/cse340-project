@@ -41,6 +41,16 @@ header, nav, main, footer {
   text-decoration: none;
   color: #555;
 }
+
+/* ───────────────────────────────────────────────
+   Header account links spacing
+─────────────────────────────────────────────── */
+#top-header .account {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 nav ul {
   list-style: none;
   padding: 0;
@@ -218,6 +228,38 @@ footer {
 
 .admin-links li a:hover {
   background: #0f4825;
+}
+
+/* ────────────────────────────────
+   Dashboard View (Account management)
+──────────────────────────────── */
+.dashboard {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.dashboard h2,
+.dashboard h3 {
+  margin-top: 1rem;
+  color: #145d31;
+}
+
+.btn-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #145d31;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-link:hover {
+  background-color: #0f4825;
 }
 
 /* ────────────────────────────────

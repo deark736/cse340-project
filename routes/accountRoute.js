@@ -25,6 +25,34 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 )
 
+// Show edit-account view
+router.get(
+  "/edit/:account_id",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildEditAccount)
+)
+
+// Process account-info update
+router.post(
+  "/edit",
+  utilities.checkLogin,
+  regValidate.accountUpdateRules(),
+  regValidate.checkAccountUpdate,
+  utilities.handleErrors(accountController.updateAccount)
+)
+
+// Process password change
+router.post(
+  "/password",
+  utilities.checkLogin,
+  regValidate.passwordRules(),
+  regValidate.checkPasswordUpdate,
+  utilities.handleErrors(accountController.updatePassword)
+)
+
+// Logout
+router.get("/logout", utilities.handleErrors(accountController.logout))
+
 router.get(
   "/",
   utilities.checkLogin,                                  // ← our new gatekeeper

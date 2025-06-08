@@ -105,4 +105,17 @@ Util.checkLogin = (req, res, next) => {
   return res.redirect("/account/login")
 }
 
+/* ****************************************
+ *  Check Admin Access
+ **************************************** */
+Util.checkAdmin = (req, res, next) => {
+  if (res.locals.loggedin && 
+      (res.locals.accountData.account_type === 'Employee' ||
+       res.locals.accountData.account_type === 'Admin')) {
+    return next()
+  }
+  req.flash('notice', 'Please log in with sufficient privileges.')
+  return res.redirect('/account/login')
+}
+
 module.exports = Util

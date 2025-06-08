@@ -1,0 +1,49 @@
+<h1><%= title %></h1>
+<%- messages() %>
+
+<% if (errors && errors.array().length) { %>
+  <ul class="error">
+    <% errors.array().forEach(err => { %>
+      <li><%= err.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<!-- Account Update Form -->
+<form action="/account/edit" method="post">
+  <input type="hidden" name="account_id" value="<%= account_id %>">
+
+  <label for="account_firstname">First Name</label>
+  <input type="text" id="account_firstname" name="account_firstname" required
+         value="<%= account_firstname %>">
+
+  <label for="account_lastname">Last Name</label>
+  <input type="text" id="account_lastname" name="account_lastname" required
+         value="<%= account_lastname %>">
+
+  <label for="account_email">Email</label>
+  <input type="email" id="account_email" name="account_email" required
+         value="<%= account_email %>">
+  <!-- keep the untouched email for the validator -->
+  <input 
+    type="hidden" 
+    name="original_email" 
+    value="<%= account_email %>"
+  >
+
+  <button type="submit">Save Account</button>
+</form>
+
+<!-- Change Password Form -->
+<form action="/account/password" method="post">
+  <input type="hidden" name="account_id" value="<%= account_id %>">
+
+  <label for="new_password">New Password</label>
+  <input type="password" id="new_password" name="account_password" required
+         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.*\s).{12,}$">
+  <p class="helper-text">
+    Must be ≥12 chars, include uppercase, lowercase, number & special.
+  </p>
+
+  <button type="submit">Change Password</button>
+</form>
