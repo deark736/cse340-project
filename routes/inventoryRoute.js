@@ -58,4 +58,14 @@ router.get(
   utilities.handleErrors(invController.editInventoryView)
 )
 
+/* ─────────────────────────────────────────
+   5) Update Inventory — process the edit form
+───────────────────────────────────────── */
+router.post(
+  "/update",
+  invValidate.inventoryRules(),        // same validation as “add”
+  invValidate.checkUpdateData,         // new error handler
+  utilities.handleErrors(invController.updateInventory)
+)
+
 module.exports = router

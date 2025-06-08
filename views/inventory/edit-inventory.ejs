@@ -8,10 +8,7 @@
   </ul>
 <% } %>
 
-<form action="/inv/update" method="post">
-  <!-- hidden inv_id so the POST knows which record to update -->
-  <input type="hidden" name="inv_id" value="<%= inv_id %>">
-
+<form id="updateForm" action="/inv/update" method="post">
   <label for="classificationList">Classification</label>
   <%- classificationSelect %>
 
@@ -24,8 +21,15 @@
          value="<%= inv_model %>">
 
   <label for="inv_year">Year</label>
-  <input type="text" id="inv_year" name="inv_year" required
-         pattern="^\\d{4}$" value="<%= inv_year %>">
+  <input
+    type="text"
+    id="inv_year"
+    name="inv_year"
+    required
+    pattern="^[0-9]{4}$"
+    title="Please enter exactly four digits (e.g. 2025)"
+    value="<%= inv_year %>"
+  >
 
   <label for="inv_description">Description</label>
   <textarea id="inv_description" name="inv_description" required><%= inv_description %></textarea>
@@ -50,5 +54,14 @@
   <input type="text" id="inv_color" name="inv_color" required
          value="<%= inv_color %>">
 
-  <button type="submit">Update Vehicle</button>
+  <button type="submit" disabled>Update Vehicle</button>
+
+  <!-- keep the hidden field *after* the button for sticky re-render -->
+  <input
+    type="hidden"
+    name="inv_id"
+    <% if (locals.inv_id) { %>value="<%= locals.inv_id %>"<% } %>
+  >
 </form>
+
+<script src="/js/inv-update.js"></script>

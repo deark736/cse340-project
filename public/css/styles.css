@@ -442,6 +442,11 @@ form button[type="submit"]:hover {
   background-color: #145d31;
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 form + p {
   text-align: center;
   margin-top: 1rem;

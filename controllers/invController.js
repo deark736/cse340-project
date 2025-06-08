@@ -204,5 +204,69 @@ invCont.editInventoryView = async function (req, res, next) {
   })
 }
 
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+invCont.updateInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body
+
+  const updateResult = await invModel.updateInventory(
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id
+  )
+
+  if (updateResult) {
+    const itemName = `${updateResult.inv_make} ${updateResult.inv_model}`
+    req.flash("notice", `The ${itemName} was successfully updated.`)
+    return res.redirect("/inv/")
+  }
+
+  // on failure, re-render edit form
+  const classificationSelect = await utilities.buildClassificationList(
+    classification_id
+  )
+  const itemName = `${inv_make} ${inv_model}`
+  req.flash("error", "Sorry, the update failed.")
+  return res.status(500).render("inventory/edit-inventory", {
+    title: `Edit ${itemName}`,
+    nav,
+    errors: null,
+    classificationSelect,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  })
+}
+
 module.exports = invCont
 // now includes getInventoryJSON via invCont object
