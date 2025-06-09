@@ -7,6 +7,7 @@ Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
+  list += '<li><a href="/inv/search" title="Search our inventory">Search</a></li>'
   data.rows.forEach((row) => {
     list += "<li>"
     list += `<a href="/inv/type/${row.classification_id}" title="See our inventory of ${row.classification_name} vehicles">${row.classification_name}</a>`

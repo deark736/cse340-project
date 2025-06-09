@@ -416,6 +416,31 @@ footer {
   }
 }
 
+.search-form {
+  max-width: 600px;
+  margin: 1rem auto;
+  display: grid;
+  gap: 0.5rem;
+}
+.search-form label {
+  font-weight: bold;
+}
+.search-form input,
+.search-form button {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+#searchResults {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem auto;
+}
+#searchResults th,
+#searchResults td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
 /* ────────────────────────────────
    Login Form Styling
 ──────────────────────────────── */

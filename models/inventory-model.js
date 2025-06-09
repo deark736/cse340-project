@@ -179,6 +179,42 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
+/* ***************************
+ *  Search Inventory with Filters
+ * ************************** */
+async function searchInventory(term, filters = {}) {
+  // build base SQL & params
+  let sql = `
+    SELECT
+      i.*,
+      c.classification_name
+    FROM public.inventory AS i
+    JOIN public.classification AS c
+      ON i.classification_id = c.classification_id
+    WHERE (i.inv_make ILIKE $1 OR i.inv_model ILIKE $1)
+  `
+  const params = [`%${term}%`]
+
+  // optional numeric filters
+  if (filters.minPrice != null) {
+    params.push(filters.minPrice)
+    sql += ` AND i.inv_price >= $${params.length}`
+  }
+  if (filters.maxPrice != null) {
+    params.push(filters.maxPrice)
+    sql += ` AND i.inv_price <= $${params.length}`
+  }
+  if (filters.year != null) {
+    params.push(filters.year)
+    sql += ` AND i.inv_year = $${params.length}`
+  }
+
+  // order and execute
+  sql += ` ORDER BY i.inv_make, i.inv_model`
+  const data = await pool.query(sql, params)
+  return data.rows
+}
+
 module.exports = {
   getClassifications,
   registerClassification,
@@ -187,4 +223,5 @@ module.exports = {
   getInventoryById,
   updateInventory,
   deleteInventoryItem,
+  searchInventory,
 }

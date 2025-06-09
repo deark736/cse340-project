@@ -1,5 +1,5 @@
 const utilities         = require(".")
-const { body, validationResult } = require("express-validator")
+const { body, query, validationResult } = require("express-validator")
 
 const validate = {}
 
@@ -135,6 +135,46 @@ validate.checkUpdateData = async (req, res, next) => {
       inv_miles: req.body.inv_miles,
       inv_color: req.body.inv_color,
       classification_id: req.body.classification_id,
+    })
+  }
+  next()
+}
+
+/* ─────────────────────────────────────────
+   Search/Filter Validation Rules
+───────────────────────────────────────── */
+validate.searchRules = () => [
+  query("q")
+    .trim()
+    .notEmpty()
+    .withMessage("Please enter a search term."),
+  query("minPrice")
+    .optional({ checkFalsy: true })
+    .isFloat({ min: 0 })
+    .withMessage("Min price must be ≥ 0."),
+  query("maxPrice")
+    .optional({ checkFalsy: true })
+    .isFloat({ min: 0 })
+    .withMessage("Max price must be ≥ 0."),
+  query("year")
+    .optional({ checkFalsy: true })
+    .isInt({ min: 1900, max: 2100 })
+    .withMessage("Year must be a 4-digit number."),
+]
+
+validate.checkSearchData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    return res.status(400).render("inventory/search", {
+      title: "Search Inventory",
+      nav,
+      vehicles: [],               // no results
+      q:       req.query.q,       // sticky
+      minPrice:req.query.minPrice,
+      maxPrice:req.query.maxPrice,
+      year:    req.query.year,
+      errors   // pass the full error object
     })
   }
   next()

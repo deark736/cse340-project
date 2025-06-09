@@ -16,6 +16,24 @@ router.get("/error", (req, res, next) => {
 })
 
 /* ─────────────────────────────────────────
+   Search & Filter Inventory View
+───────────────────────────────────────── */
+router.get(
+  "/search",
+  utilities.handleErrors(invController.searchForm)
+)
+
+/* ─────────────────────────────────────────
+   Process Search Results
+───────────────────────────────────────── */
+router.get(
+  "/search/results",
+  invValidate.searchRules(),
+  invValidate.checkSearchData,
+  utilities.handleErrors(invController.searchResults)
+)
+
+/* ─────────────────────────────────────────
    Management View
 ───────────────────────────────────────── */
 router.get(

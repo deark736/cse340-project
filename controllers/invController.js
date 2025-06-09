@@ -307,5 +307,50 @@ invCont.deleteInventory = async (req, res, next) => {
   return res.redirect(`/inv/delete/${inv_id}`)
 }
 
+/* ***************************
+ *  Search & Filter Inventory
+ *  — render empty search form
+ * ************************** */
+invCont.searchForm = async (req, res, next) => {
+  const nav = await utilities.getNav()
+  // no results yet, just pass empty list and empty filters
+  res.render("inventory/search", {
+    title: "Search Inventory",
+    nav,
+    vehicles: [],
+    q: "",
+    minPrice: "",
+    maxPrice: "",
+    year: "",
+    errors: null
+  })
+}
+
+/* ***************************
+ *  Search & Filter Inventory
+ *  — process query & render results
+ * ************************** */
+invCont.searchResults = async (req, res, next) => {
+  const nav = await utilities.getNav()
+  const { q, minPrice, maxPrice, year } = req.query
+
+  // coerce/filter only the values that were actually provided
+  const filters = {}
+  if (minPrice) filters.minPrice = parseFloat(minPrice)
+  if (maxPrice) filters.maxPrice = parseFloat(maxPrice)
+  if (year)     filters.year     = parseInt(year, 10)
+
+  // pass q as the first param, filters as the second
+  const vehicles = await invModel.searchInventory(q, filters)
+
+  res.render("inventory/search", {
+    title:    "Search Inventory",
+    nav,
+    vehicles,
+    q, minPrice, maxPrice, year,
+    errors:   null,
+  })
+}
+
 module.exports = invCont
 // now includes getInventoryJSON via invCont object
